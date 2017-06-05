@@ -1,0 +1,117 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TSH - zadanie Łukasz Bąk</title>
+        
+        <link rel="stylesheet" href="css/app.min.css">
+        
+    </head>
+<body>
+  
+    <div class="preloader-holder">
+        <span>Loading...</span>
+    </div>
+    
+	<div id="app"> 
+		<div class="box">
+        	
+            <section class="box-header">
+                <h1>Where your money&nbsp;goes</h1>
+                <p>Payments made by Chichester District Council to individual suppliers with a&nbsp;value over £500 made within October.</p>
+                <hr>
+            </section>
+            
+            <section class="box-search">
+                <form>
+                    <div class="form-element field">
+                        <input type="text" placeholder="Search suppliers" v-model="searchValue">
+                    </div>
+                    <div class="form-element select">
+                        <div class="box-select-style">
+                            <select v-model="selectedRating" v-on:keyup.enter="fetchData">
+                                <option disabled value="">Select pound rating:</option>
+                                <option value="0">Show all ratings</option>
+                                <option value="1">Rating 1</option>
+                                <option value="2">Rating 2</option>
+                                <option value="3">Rating 3</option>
+                                <option value="4">Rating 4</option>
+                                <option value="5">Rating 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-element btn">
+                        <a class="button secondary" v-on:click="resetMethods">Reset</a>
+                    </div>
+                    <div class="form-element btn">
+                        <button class="button primary" v-on:click="fetchData">Search</button>
+                    </div>
+                </form>
+            </section>
+            
+            <section class="box-results">
+                <div class="table-responsive">
+                    <table class="box-table-style">
+                        <tr>
+                            <th>Supplier</th>
+                            <th style="width:180px;">Pound Rating</th>
+                            <th style="width:95px;">Reference</th>
+                            <th style="width:106px;">Value</th>
+                        </tr>
+                        
+                        <tr v-on:click="getPopup($event)" v-if="searchStatus" v-for="record in payments.payments">
+                            <td>{{ record.payment_supplier }}</td>
+                            <td><img class="rating-img" :src="'img/pound-rating/' + record.payment_cost_rating + '.png'" /></td>
+                            <td>{{ record.payment_ref }}</td>
+                            <td>£{{ record.payment_amount }}</td>
+                        </tr>
+                        
+                        <tr v-if="!searchStatus">
+                            <td colspan="4" class="no-results">{{ searchStatusFailMsg }}</td>
+                        </tr>
+                        
+                    </table>
+                </div>
+            </section>
+            
+            <section class="box-pagination">
+                
+                <ul class="pagination">
+                    <li v-if="pagination.left"><a v-on:click="decreaseCurrentPagination"><img src="img/back-arr.png"/></a></li>
+                    <li v-else><a class="disabled"><img src="img/back-arr.png"/></a></li>
+                    
+                    <li v-for="(item, index) in pagination.links">
+                        <a v-if="index == pagination.current" v-on:click="setCurrentPagination(index)" class="current">{{ parseInt(index) + 1 }}</a>
+                        
+                        <a v-else v-on:click="setCurrentPagination(index)">{{ parseInt(index) + 1 }}</a>
+                    </li>
+                    
+                    <li v-if="pagination.right"><a v-on:click="increaseCurrentPagination"><img src="img/next-arr.png"/></a></li>
+                    <li v-else><a class="disabled"><img src="img/next-arr.png"/></a></li>
+                </ul>
+                    
+            </section>
+            
+        </div>
+	</div>
+        
+    <div class="popup">
+        <button data-remodal-action="close" class="remodal-close"></button>
+        <h1>Details:</h1>
+        <ul>
+            <li><p>Supplier: <span class="supplier-target target"></span></p></li>
+                
+            <li><p>Rating: <span class="rating-target target"></span></p></li>
+            
+            <li><p>Reference: <span class="reference-target target"></span></p></li>
+            
+            <li><p>Value: <span class="value-target target"></span></p></li>
+        </ul>
+    </div>
+
+    <script src="js/app.min.js"></script>
+    
+</body>
+</html>
