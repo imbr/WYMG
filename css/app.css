@@ -91,7 +91,7 @@ img {
     user-select: none;
 }
 
-.preloader-holder {
+.preloader {
     position: fixed;
     top:0px; left:0px;
     width: 100%;
@@ -100,7 +100,7 @@ img {
     background-color: #F7F7F7;
 }
 
-.preloader-holder span {
+.preloader span {
     font-size: 12px;
     color: rgba(0,0,0,0.45);
     letter-spacing: 2px;

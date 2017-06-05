@@ -160,7 +160,7 @@ $( document ).ready(function() {
 /* ------- 5.0 WINDOW ------- */
 $(window).on('load', function () {
     
-    $('.preloader-holder').animate({ opacity: 0 }, 300, function(){
+    $('.preloader').animate({ opacity: 0 }, 300, function(){
         $( this ).css({"display": "none"});
     });
     
